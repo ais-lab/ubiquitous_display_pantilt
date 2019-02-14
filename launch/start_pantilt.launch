@@ -1,0 +1,12 @@
+<launch>
+  <include file="$(find ubiquitous_display_pantilt)/launch/dynamixel/pantilt_dxl_manager.launch"/>
+  <include file="$(find ubiquitous_display_pantilt)/launch/dynamixel/pantilt_dxl_controller.launch"/>
+  <include file="$(find ubiquitous_display_pantilt)/launch/dynamixel/pantilt_dxl_joint_state_publisher.launch"/>
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <rosparam param="source_list">['joint_states']</rosparam>
+  </node>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
+</launch>

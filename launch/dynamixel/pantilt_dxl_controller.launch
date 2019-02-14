@@ -1,0 +1,14 @@
+<launch>
+  <rosparam file="$(find ubiquitous_display_pantilt)/config/pantilt.yaml" command="load"/>
+  <node name="pan_controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py"
+    args="--manager=dxl_manager
+          --port pan_tilt_port
+          pan_controller"
+    output="screen"/>
+
+  <node name="tilt_controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py"
+    args="--manager=dxl_manager
+          --port pan_tilt_port
+          tilt_controller"
+    output="screen"/>
+</launch>

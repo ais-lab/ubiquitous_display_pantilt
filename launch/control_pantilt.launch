@@ -1,0 +1,5 @@
+<launch>
+
+  <node pkg="ubiquitous_display_pantilt" name="control_pantilt" type="control_pantilt.py" output="screen" />
+
+</launch>
