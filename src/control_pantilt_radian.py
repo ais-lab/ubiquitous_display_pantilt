@@ -52,10 +52,11 @@ def get_tilt_position():
     except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
       rospy.loginfo("TF Exception")
       return
-    
+
     e = tf.transformations.euler_from_quaternion((rot[0], rot[1], rot[2], rot[3]))
-    #print "current sngle" ,math.degrees(e[0]),math.degrees(e[1]),math.degrees(e[2])
+    # print "current sngle: pan" ,math.degrees(e[0]),math.degrees(e[1]),math.degrees(e[2])
     #print trans[2]
+    # print e
     return e[0]
 
 def get_pan_position():
@@ -70,11 +71,12 @@ def get_pan_position():
     except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
       rospy.loginfo("TF Exception")
       return
-    
+
     e = tf.transformations.euler_from_quaternion((rot[0], rot[1], rot[2], rot[3]))
-    #print "current sngle" ,math.degrees(e[0]),math.degrees(e[1]),math.degrees(e[2])
+    # print "current sngle tilt" ,math.degrees(e[0]),math.degrees(e[1]),math.degrees(e[2])
     #print trans[2]
-    return e[2]
+    # print e
+    return e[2] -3.14
 
 
 def callback(data):
@@ -82,6 +84,9 @@ def callback(data):
     pub_tilt = rospy.Publisher('tilt_controller/command', Float64, queue_size=10)
     #pub_proj = rospy.Publisher('proj_array', Int16MultiArray, queue_size=10)
     pub_int = rospy.Publisher('finish_pantilt', Int16, queue_size=10)
+
+    float_pan = Float64()
+    float_tilt = Float64()
 
     pan_speed = data.speed.x
     tilt_speed = data.speed.y
@@ -92,11 +97,8 @@ def callback(data):
 
 
     pan_degree = data.position.x
-    tilt_degree = data.position.y 
+    tilt_degree = data.position.y
     z_point = data.position.z
-
-    float_pan = Float64()
-    float_tilt = Float64()
 
     float_pan = pan_degree
     target_pan = float_pan
@@ -104,18 +106,18 @@ def callback(data):
     float_tilt = tilt_degree
     target_tilt = float_tilt
 
- 
+
     pub_pan.publish(float_pan)
     pub_tilt.publish(float_tilt)
 
     offset_tilt = 0.04 #2.5 degree
-    offset_pan = 0.04 
+    offset_pan = 0.04
     while True:
       #print "pass"
       current_tilt = get_tilt_position()
       current_pan = get_pan_position()
-      #print "c", current_pan, current_tilt
-      #print "t", target_pan, target_tilt
+      print "c", current_pan, current_tilt
+      print "t", target_pan, target_tilt
       if current_tilt < target_tilt + offset_tilt and current_tilt > target_tilt - offset_tilt and current_pan < target_pan + offset_pan and current_pan > target_pan - offset_pan:
         break
 
@@ -130,8 +132,8 @@ def callback(data):
     print ("finish pantilt")
 
 
-    
-    
+
+
 
 def ud_pantilt():
 
@@ -151,4 +153,3 @@ def ud_pantilt():
 if __name__ == '__main__':
 
     ud_pantilt()
-

@@ -1,5 +1,6 @@
 <launch>
 
   <node pkg="ubiquitous_display_pantilt" name="control_pantilt" type="control_pantilt.py" output="screen" />
+  <node pkg="ubiquitous_display_pantilt" name="control_pantilt_radian" type="control_pantilt_radian.py" output="screen" />
 
 </launch>
