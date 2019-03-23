@@ -43,16 +43,16 @@ def constrain(input, low, high):
 def get_tilt_position():
 
     listener = tf.TransformListener()
-    listener.waitForTransform('ud_base_footprint', '/ud_pt_projector_link', rospy.Time(), rospy.Duration(4.0))
+    listener.waitForTransform('base_footprint', '/ud_pt_projector_link', rospy.Time(), rospy.Duration(4.0))
 
     try:
       now = rospy.Time.now()
-      listener.waitForTransform('ud_base_footprint', '/ud_pt_projector_link', now, rospy.Duration(4.0))
-      (trans,rot) = listener.lookupTransform('/ud_base_footprint', '/ud_pt_projector_link', now)
+      listener.waitForTransform('base_footprint', '/ud_pt_projector_link', now, rospy.Duration(4.0))
+      (trans,rot) = listener.lookupTransform('/base_footprint', '/ud_pt_projector_link', now)
     except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
       rospy.loginfo("TF Exception")
       return
-    
+
     e = tf.transformations.euler_from_quaternion((rot[0], rot[1], rot[2], rot[3]))
     #print "current sngle" ,math.degrees(e[0]),math.degrees(e[1]),math.degrees(e[2])
     #print trans[2]
@@ -61,16 +61,16 @@ def get_tilt_position():
 def get_pan_position():
 
     listener = tf.TransformListener()
-    listener.waitForTransform('ud_base_footprint', '/ud_pt_plate_link', rospy.Time(), rospy.Duration(4.0))
+    listener.waitForTransform('base_footprint', '/ud_pt_plate_link', rospy.Time(), rospy.Duration(4.0))
 
     try:
       now = rospy.Time.now()
-      listener.waitForTransform('ud_base_footprint', '/ud_pt_plate_link', now, rospy.Duration(4.0))
-      (trans,rot) = listener.lookupTransform('/ud_base_footprint', '/ud_pt_plate_link', now)
+      listener.waitForTransform('base_footprint', '/ud_pt_plate_link', now, rospy.Duration(4.0))
+      (trans,rot) = listener.lookupTransform('/base_footprint', '/ud_pt_plate_link', now)
     except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
       rospy.loginfo("TF Exception")
       return
-    
+
     e = tf.transformations.euler_from_quaternion((rot[0], rot[1], rot[2], rot[3]))
     #print "current sngle" ,math.degrees(e[0]),math.degrees(e[1]),math.degrees(e[2])
     #print trans[2]
@@ -92,7 +92,7 @@ def callback(data):
 
 
     x_point = data.position.x
-    y_point = data.position.y 
+    y_point = data.position.y
     z_point = data.position.z
 
     rad_pan = math.atan2(y_point, x_point)
@@ -117,12 +117,12 @@ def callback(data):
     float_tilt = checkTiltRadian(float_tilt)
     target_tilt = float_tilt
 
- 
+
     pub_pan.publish(float_pan)
     pub_tilt.publish(float_tilt)
 
     offset_tilt = 0.04 #2.5 degree
-    offset_pan = 0.04 
+    offset_pan = 0.04
     while True:
       #print "pass"
       current_tilt = get_tilt_position()
@@ -147,8 +147,8 @@ def callback(data):
     print ("finish pantilt")
 
 
-    
-    
+
+
 
 def ud_pantilt():
 
@@ -168,4 +168,3 @@ def ud_pantilt():
 if __name__ == '__main__':
 
     ud_pantilt()
-

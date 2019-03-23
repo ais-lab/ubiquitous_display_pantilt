@@ -43,12 +43,12 @@ def constrain(input, low, high):
 def get_tilt_position():
 
     listener = tf.TransformListener()
-    listener.waitForTransform('ud_base_footprint', '/ud_pt_projector_link', rospy.Time(), rospy.Duration(4.0))
+    listener.waitForTransform('base_footprint', '/ud_pt_projector_link', rospy.Time(), rospy.Duration(4.0))
 
     try:
       now = rospy.Time.now()
-      listener.waitForTransform('ud_base_footprint', '/ud_pt_projector_link', now, rospy.Duration(4.0))
-      (trans,rot) = listener.lookupTransform('/ud_base_footprint', '/ud_pt_projector_link', now)
+      listener.waitForTransform('base_footprint', '/ud_pt_projector_link', now, rospy.Duration(4.0))
+      (trans,rot) = listener.lookupTransform('/base_footprint', '/ud_pt_projector_link', now)
     except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
       rospy.loginfo("TF Exception")
       return
@@ -62,12 +62,12 @@ def get_tilt_position():
 def get_pan_position():
 
     listener = tf.TransformListener()
-    listener.waitForTransform('ud_base_footprint', '/ud_pt_plate_link', rospy.Time(), rospy.Duration(4.0))
+    listener.waitForTransform('base_footprint', '/ud_pt_plate_link', rospy.Time(), rospy.Duration(4.0))
 
     try:
       now = rospy.Time.now()
-      listener.waitForTransform('ud_base_footprint', '/ud_pt_plate_link', now, rospy.Duration(4.0))
-      (trans,rot) = listener.lookupTransform('/ud_base_footprint', '/ud_pt_plate_link', now)
+      listener.waitForTransform('base_footprint', '/ud_pt_plate_link', now, rospy.Duration(4.0))
+      (trans,rot) = listener.lookupTransform('/base_footprint', '/ud_pt_plate_link', now)
     except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
       rospy.loginfo("TF Exception")
       return
