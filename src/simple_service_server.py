@@ -126,6 +126,9 @@ def callback(point):
     return AddPointsResponse(True)
 
 def service_server():
+    
+    pub_pan = rospy.Publisher('/ubiquitous_display/pan_controller/command', Float64, queue_size=10)
+    pub_tilt = rospy.Publisher('/ubiquitous_display/tilt_controller/command', Float64, queue_size=10)
 
     rospy.init_node('simple_service_server_for_pantilt', anonymous=True)
 
