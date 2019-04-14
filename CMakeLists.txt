@@ -61,7 +61,7 @@ add_service_files(
   FILES
 #   Service1.srv
 #   Service2.srv
-  action_plan_pantilt.srv
+  AddPoints.srv
 )
 
 ## Generate actions in the 'action' folder
