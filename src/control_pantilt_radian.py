@@ -43,12 +43,12 @@ def constrain(input, low, high):
 def get_tilt_position():
 
     listener = tf.TransformListener()
-    listener.waitForTransform('base_footprint', '/ud_pt_projector_link', rospy.Time(), rospy.Duration(4.0))
+    listener.waitForTransform('base_footprint', '/projector_link', rospy.Time(), rospy.Duration(4.0))
 
     try:
       now = rospy.Time.now()
-      listener.waitForTransform('base_footprint', '/ud_pt_projector_link', now, rospy.Duration(4.0))
-      (trans,rot) = listener.lookupTransform('/base_footprint', '/ud_pt_projector_link', now)
+      listener.waitForTransform('base_footprint', '/projector_link', now, rospy.Duration(4.0))
+      (trans,rot) = listener.lookupTransform('/base_footprint', '/projector_link', now)
     except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
       rospy.loginfo("TF Exception")
       return
@@ -57,17 +57,17 @@ def get_tilt_position():
     # print "current sngle: pan" ,math.degrees(e[0]),math.degrees(e[1]),math.degrees(e[2])
     #print trans[2]
     # print e
-    return e[0]
+    return -e[0]
 
 def get_pan_position():
 
     listener = tf.TransformListener()
-    listener.waitForTransform('base_footprint', '/ud_pt_plate_link', rospy.Time(), rospy.Duration(4.0))
+    listener.waitForTransform('base_footprint', '/projector_link', rospy.Time(), rospy.Duration(4.0))
 
     try:
       now = rospy.Time.now()
-      listener.waitForTransform('base_footprint', '/ud_pt_plate_link', now, rospy.Duration(4.0))
-      (trans,rot) = listener.lookupTransform('/base_footprint', '/ud_pt_plate_link', now)
+      listener.waitForTransform('base_footprint', '/projector_link', now, rospy.Duration(4.0))
+      (trans,rot) = listener.lookupTransform('/base_footprint', '/projector_link', now)
     except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
       rospy.loginfo("TF Exception")
       return
@@ -76,7 +76,7 @@ def get_pan_position():
     # print "current sngle tilt" ,math.degrees(e[0]),math.degrees(e[1]),math.degrees(e[2])
     #print trans[2]
     # print e
-    return e[2] -3.14
+    return e[2]
 
 
 def callback(data):
