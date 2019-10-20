@@ -13,9 +13,9 @@ import math
 import tf
 
 MAX_PAN_RADIAN = 1.24 #71
-MIN_PAN_RADIAN = 3.8  #217
+MIN_PAN_RADIAN = 4.1  #217
 
-MAX_TILT_RADIAN = 1.04 # 2.96
+MAX_TILT_RADIAN = 1.2 # 2.96
 MIN_TILT_RADIAN = 0.52 #29
 
 def checkPanRadian(radian):
@@ -116,9 +116,9 @@ def callback(data):
       #print "pass"
       current_tilt = get_tilt_position()
       current_pan = get_pan_position()
-      print "c", current_pan, current_tilt
-      print "t", target_pan, target_tilt
-      if current_tilt < target_tilt + offset_tilt and current_tilt > target_tilt - offset_tilt and current_pan < target_pan + offset_pan and current_pan > target_pan - offset_pan:
+      #print "c", current_pan, current_tilt
+      #print "t", target_pan, target_tilt
+      if current_tilt < target_tilt + offset_tilt and current_tilt > target_tilt - offset_tilt:
         break
 
     rospy.set_param('control_pantilt/current_tilt_degree', current_tilt)
